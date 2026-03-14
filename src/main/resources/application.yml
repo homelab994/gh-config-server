@@ -7,8 +7,7 @@ spring:
           uri: https://github.com/homelab994/gh-config-repo
           default-label: develop
           search-paths:
-            - gh-simple-spring
-            - gh-another-spring
+            - "*"
 
 server:
   port: 9090
