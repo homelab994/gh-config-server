@@ -17,18 +17,18 @@ jobs:
       release-version: ${{ needs.prepare.outputs.release-version }}
     secrets: inherit
 
-  increment:
-    needs: [prepare, build]
-    uses: homelab994/gh-newops/.github/workflows/increment-patch-version.yml@develop
-    with:
-      release-version: ${{ needs.prepare.outputs.release-version }}
-    secrets: inherit
-
   build-image:
-    needs: [prepare, increment]
+    needs: prepare
     uses: homelab994/gh-newops/.github/workflows/build-push-docker.yml@develop
     with:
       artifact-name: 'gh-config-server'
+      release-version: ${{ needs.prepare.outputs.release-version }}
+    secrets: inherit
+
+  increment:
+    needs: [prepare, build, build-image]
+    uses: homelab994/gh-newops/.github/workflows/increment-patch-version.yml@develop
+    with:
       release-version: ${{ needs.prepare.outputs.release-version }}
     secrets: inherit
 
